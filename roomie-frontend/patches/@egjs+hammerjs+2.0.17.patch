@@ -1,0 +1,23 @@
+diff --git a/node_modules/@egjs/hammerjs/.babelrc b/node_modules/@egjs/hammerjs/.babelrc
+deleted file mode 100644
+index 13739d8..0000000
+--- a/node_modules/@egjs/hammerjs/.babelrc
++++ /dev/null
+@@ -1,16 +0,0 @@
+-{
+-  "presets": [
+-    [
+-      "@babel/preset-env",
+-      {
+-        "loose": true,
+-        "modules": false
+-      }
+-    ]
+-  ],
+-  "plugins": [
+-    "babel-plugin-no-side-effect-class-properties",
+-    ["@babel/plugin-proposal-class-properties", {"loose": true}],
+-    "@babel/plugin-transform-object-assign"
+-  ]
+-}
+\ No newline at end of file

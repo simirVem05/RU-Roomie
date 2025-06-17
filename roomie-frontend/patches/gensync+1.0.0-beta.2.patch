@@ -1,0 +1,11 @@
+diff --git a/node_modules/gensync/test/.babelrc b/node_modules/gensync/test/.babelrc
+deleted file mode 100644
+index cc7f4e9..0000000
+--- a/node_modules/gensync/test/.babelrc
++++ /dev/null
+@@ -1,5 +0,0 @@
+-{
+-  presets: [
+-    ["env", { targets: { node: "current" }}],
+-  ],
+-}
