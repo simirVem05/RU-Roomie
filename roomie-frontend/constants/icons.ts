@@ -34,6 +34,8 @@ import edit from "@/assets/icons/edit.png";
 import like from "@/assets/icons/like.png";
 import email from "@/assets/icons/email.png";
 import password from "@/assets/icons/password.png";
+import clock from "@/assets/icons/clock.png";
+import pets  from "@/assets/icons/pets.png";
 
 export default {
   google,
@@ -62,6 +64,8 @@ export default {
   carPark,
   cutlery,
   dog,
+  clock,
+  pets,
   dumbell,
   laundry,
   run,
