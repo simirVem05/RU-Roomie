@@ -80,4 +80,4 @@ const TabsLayout = () => {
     )
 }
 
-export default TabsLayout
+export default TabsLayout;
