@@ -15,12 +15,12 @@ const InputField = ({
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : "height"}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View className='my-2 w-full'>
-                <Text className={`text-lg mb-3 ${labelStyle}`}>
+                <Text className={`text-lg mb-3 font-semibold ${labelStyle}`}>
                     {label}
                 </Text>
 
                 <View 
-                className={`flex flex-row justify-start items-center relative rounded-full border focus:border-white ${containerStyle}`}>
+                className={`flex flex-row justify-start items-center relative rounded-full bg-gray-100 focus:border-white ${containerStyle}`}>
                     {icon && (<Image source={icon} className={`w-6 h-6 ml-4 ${iconStyle}`}/>)}
                     <TextInput 
                     className={`rounded-full p-4 text-[15px] flex-1 ${inputStyle} text-left`}

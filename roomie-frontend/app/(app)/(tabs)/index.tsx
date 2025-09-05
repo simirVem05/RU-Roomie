@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 import { Link } from 'expo-router';
+import { SignOutButton } from "@/components/SignOutButton";
 
 export default function Index() {
   return (
@@ -10,6 +11,8 @@ export default function Index() {
       <Link href="/likes">Likes</Link>
       <Link href="/chat">Chat</Link>
       <Link href="/profile">Profile</Link>
+
+      <SignOutButton/>
     </View>
   );
 }
