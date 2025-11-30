@@ -10,6 +10,7 @@ import { useRouter } from 'expo-router';
 import InputField from '@/components/InputField';
 import icons from '@/constants/icons';
 import CustomButton from '@/components/CustomButton';
+import SafeAreaContext from 'react-native-safe-area-context';
 
 export default function PreferencesScreen() {
   const router = useRouter();

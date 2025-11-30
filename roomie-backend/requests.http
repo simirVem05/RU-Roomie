@@ -1,1 +1,1 @@
-DELETE http://localhost:3001/api/v1/users/:id
+POST http://localhost:3001/
