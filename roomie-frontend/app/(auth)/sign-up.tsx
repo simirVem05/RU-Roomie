@@ -66,6 +66,8 @@ export default function SignUp() {
         code: verification.code,
       })
 
+      const clerkUserId = signUpAttempt.createdUserId;
+
       // If verification was completed, set the session to active
       // and redirect the user
       if (signUpAttempt.status === 'complete') {
@@ -80,6 +82,7 @@ export default function SignUp() {
               name: form.fullName,
               email: form.email,
               password: form.password,
+              clerkUserId,
             });
           }
         } catch(error: any) {
@@ -90,6 +93,8 @@ export default function SignUp() {
         }
 
         setVerification({ ...verification, state: "success"});
+        
+        router.replace('/onboarding/basic-info');
       }
       else {
         // If the status is not complete, check why. User may need to
@@ -210,6 +215,7 @@ export default function SignUp() {
             </Modal>
             
             {/*Success modal */}
+            {/*
             <Modal
               transparent
               animationType="fade"
@@ -247,6 +253,7 @@ export default function SignUp() {
                   </View>
               </View>
             </Modal>
+            */}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
