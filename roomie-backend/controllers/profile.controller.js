@@ -53,3 +53,28 @@ export const getProfileByUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateOnboardingStep = async (req, res, next) => {
+  try {
+    const { userId, step } = req.body;
+
+    if (!userId || !step) {
+      const error = new Error("userId and step are required.");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const profile = await Profile.findOneAndUpdate(
+      { user: userId },
+      { onboardingStep: step },
+      { new: true, upsert: true, runValidators: true }
+    );
+
+    res.status(200).json({
+      status: "sucess",
+      data: { profile },
+    });
+  } catch (error) {
+    next(error);
+  }
+};

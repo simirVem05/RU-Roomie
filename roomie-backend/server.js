@@ -9,6 +9,7 @@ import userRouter from './routes/user.routes.js';
 import matchesRouter from './routes/matches.routes.js';
 import messagesRouter from './routes/messages.routes.js';
 import errorMiddleware from './middleware/error.middleware.js';
+import profileRoutes from "./routes/profile.routes.js";
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/matches', matchesRouter);
 app.use('/api/v1/messages', messagesRouter);
+app.use("/api/v1/profile", profileRoutes);
+
 
 // Health
 app.get('/', (req, res) => res.send('API is running'));
