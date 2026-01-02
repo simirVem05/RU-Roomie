@@ -13,24 +13,21 @@ import profileRoutes from "./routes/profile.routes.js";
 
 const app = express();
 
-// ✅ Parsers and CORS BEFORE routes
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// ✅ Routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use("/api/v1/profile", profileRoutes);
 app.use('/api/v1/matches', matchesRouter);
 app.use('/api/v1/messages', messagesRouter);
-app.use("/api/v1/profile", profileRoutes);
 
 
-// Health
 app.get('/', (req, res) => res.send('API is running'));
 
-// Errors last
+
 app.use(errorMiddleware);
 
 app.listen(PORT, async () => {

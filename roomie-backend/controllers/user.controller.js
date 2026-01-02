@@ -25,3 +25,20 @@ export const getUser = async (req, res, next) => {
     next(error);
    }
 }
+
+export const getUserByClerkId = async (req, res, next) => {
+   try {
+      const { clerkUserId } = req.params;
+
+      const user = await User.findOne({ clerkUserId }).select("-password");
+      if(!user) {
+         const error = new Error("User not found");
+         error.statusCode = 404;
+         throw error;
+      }
+
+      res.status(200).json({ status: "success", data: { user }});
+   } catch (error) {
+      next(error);
+   }
+};

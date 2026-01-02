@@ -45,36 +45,39 @@ const profileSchema = new mongoose.Schema({
     sleepSchedule: {
         type: String,
         enum: ['Early Bird', 'Night Owl', 'Flexible'],
+        required: [true, 'Sleep Schedule is required'],
     },
     cleanlinessType: {
         type: String,
         enum: ['Messy Slob', 'Disorganized', 'Organized', 'Neat Freak'],
+        required: [true, ['Cleanliness is required']],
     },
     noiseToleration: {
         type: String,
         enum: ['Very Little Noise', 'Moderate Noise', 'Heavy Noise', 'Any Noise'],
+        required: [true, 'Noise toleration is required'],
     },
     socialType: {
         type: String,
         enum: ['Introvert', 'Lean Introverted', 'Lean Extroverted', 'Extrovert'],
+        required: [true, 'Social type is required'],
     },
     timeAtHome: {
         type: String,
         enum: ['Always Home', 'Usually Home', 'Mixed', 'Usually Not At Home', 'Never Home'],
+        required: [true, 'Time at home is required'],
     },
     desiredCommunication: {
         type: String,
         enum: ['Only When Necessary', 'We Can Be Cool', 'Lets Be friends', 'Lets Be Best Friends'],
+        required: [true, 'Desired communication is required']
     },
     interests: {
         type: [{
             type: String,
             enum: INTERESTS,
         }],
-        validate: {
-            validator: (arr) => Array.isArray(arr) && arr.length >= 5,
-            message: 'At least 5 interests are required',
-        },
+        default: [],
     },
     desiredHousingType: {
         type: String,
@@ -103,15 +106,15 @@ const profileSchema = new mongoose.Schema({
     },
     guestFrequency: {
         type: String,
-        enum: ['Never', 'Rarely', 'Sometimes', 'Often']
+        enum: ['Never', 'Rarely', 'Sometimes', 'Often'],
+        required: [true, 'Guest frequency is required'],
     },
     photos: {
         type: [String],
+        default: [],
         validate: {
-            validator: function (arr) {
-                return Array.isArray(arr) && arr.length >= 3 && arr.length <= 6;
-            },
-            message: 'You must upload between 3 and 6 photos',
+            validator: (arr) => !arr || arr.length <= 6,
+            message: "You can upload up to 6 photos",
         },
     },
     isOnboarded: {

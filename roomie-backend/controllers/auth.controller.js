@@ -3,14 +3,27 @@ import User from '../models/user.model.js';
 
 export const signUp = async(req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, clerkUserId } = req.body;
 
-    let user = await User.findOne({email});
+    if(!clerkUserId){
+      const error = new Error("clerkUserId is required");
+      error.statusCode = 400;
+      throw error;
+    }
 
+    let user = await User.findOne({ clerkUserId });
     if(user) {
-        const error = new Error('User already exists');
-        error.statusCode = 409;
-        throw error;
+        return res.status(200).json({
+          status: "success",
+          data: { user },
+        });
+    }
+
+    const emailExists = await User.findOne({ email });
+    if (emailExists) {
+      const error = new Error("User already exists");
+      error.statusCode = 409;
+      throw error;
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -19,6 +32,7 @@ export const signUp = async(req, res, next) => {
       name,
       email,
       password: hashedPassword,
+      clerkUserId,
     });
     
 
@@ -55,18 +69,9 @@ export const logIn = async(req, res, next) => {
 
     res.status(200).json({
         success: true,
-        message: 'User signed in successfully',
-        data: {
-            token, 
-            user, 
-        }
+        data: { user }
     });
    } catch (error){
      next(error);
    }
 }
-
-export const signOut = async(req, res, next) => {
-  
-}
-

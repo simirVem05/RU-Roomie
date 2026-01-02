@@ -44,8 +44,8 @@ export default function BasicInfo() {
                 Alert.alert("Config error", "EXPO_PUBLIC_API_URL is not set");
                 return;
             }
-            if (!mongoUserId) {
-                Alert.alert("Missing userId", "No Mongo userId found for this user.");
+            if (!user?.id) {
+                Alert.alert("Auth error", "No Clerk user found");
                 return;
             }
 
@@ -60,7 +60,7 @@ export default function BasicInfo() {
             }
 
             await axios.post(`${API_BASE}/api/v1/profile`, {
-                userId: mongoUserId,
+                clerkUserId: user.id,
                 displayName: form.displayName.trim(),
                 age: Number(form.age),
                 year: form.year,
@@ -87,23 +87,23 @@ export default function BasicInfo() {
                     
                     <View className="px-5 mb-10">
                         <Text className="text-primaryRed font-semibold text-4xl">
-                            First, your basics.
+                            First, the basics.
                         </Text>
                     </View>
                     
                     <View className="px-5 space-y-4">
                         <InputField
                         label="Your Name (This will be displayed on your profile)"
-                        placeholder="3.g., Sam"
-                        icon={icons.person}
+                        placeholder="e.g. Sam"
+                        placeholderTextColor={"#a6a5a0ff"}
                         value={form.displayName}
                         onChangeText={v => setForm({...form, displayName: v})}
                         />
 
                         <InputField
                         label="Your Age"
-                        placeholder="e.g., 20"
-                        icon={icons.person}
+                        placeholder="e.g. 20"
+                        placeholderTextColor={"#a6a5a0ff"}
                         value={form.age}
                         onChangeText={v => setForm({...form, age: v})}
                         keyboardType="number-pad"
@@ -112,7 +112,6 @@ export default function BasicInfo() {
                         <DropdownField
                         label = "Your Year"
                         placeholder="Select..."
-                        icon={icons.person}
                         value={form.year}
                         options={years}
                         onValueChange={(y) => setForm({ ...form, year: y})}
@@ -121,7 +120,6 @@ export default function BasicInfo() {
                         <DropdownField
                         label = "Your Gender"
                         placeholder="Select..."
-                        icon={icons.person}
                         value={form.gender}
                         options={genders}
                         onValueChange={(g) => setForm({ ...form, gender: g})}

@@ -3,24 +3,24 @@ import User from '../models/user.model.js';
 
 export const createProfile = async(req, res, next) => {
     try {
-        const { userId, ...profileData} = req.body;
+        const { clerkUserId, ...profileData} = req.body;
 
-        if(!userId){
-            const error = new Error('UserID is required.');
+        if(!clerkUserId){
+            const error = new Error('clerkUserId is required.');
             error.statusCode = 400;
             throw error;
         }
 
-        const user = await User.findById(userId);
-        if(!user) {
-            const error = new Error('User not found');
-            error.statusCode = 404;
-            throw error;
+        const user = await User.findOne({ clerkUserId })
+        if(!user){
+          const error = new Error("User not found");
+          error.statusCode = 404;
+          throw error;
         }
 
         const profile = await Profile.findOneAndUpdate(
-            { user: userId },
-            { user: userId, ...profileData },
+            { user: user._id },
+            { user: user._id, ...profileData },
             { new: true, upsert: true, runValidators: true }
         );
 
@@ -56,22 +56,51 @@ export const getProfileByUser = async (req, res, next) => {
 
 export const updateOnboardingStep = async (req, res, next) => {
   try {
-    const { userId, step } = req.body;
+    const { clerkUserId, step } = req.body;
 
-    if (!userId || !step) {
-      const error = new Error("userId and step are required.");
+    if (!clerkUserId || !step) {
+      const error = new Error("clerkUserId and step are required.");
       error.statusCode = 400;
       throw error;
     }
 
+    const user = await User.findOne({ clerkUserId });
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
     const profile = await Profile.findOneAndUpdate(
-      { user: userId },
+      { user: user._id },
       { onboardingStep: step },
       { new: true, upsert: true, runValidators: true }
     );
 
     res.status(200).json({
-      status: "sucess",
+      status: "success",
+      data: { profile },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProfileByClerkUser = async (req, res, next) => {
+  try {
+    const { clerkUserId } = req.params;
+
+    const user = await User.findOne({ clerkUserId });
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const profile = await Profile.findOne({ user: user._id });
+
+    res.status(200).json({
+      status: "success",
       data: { profile },
     });
   } catch (error) {

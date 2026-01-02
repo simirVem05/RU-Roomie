@@ -1,77 +1,100 @@
-import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  Button
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import InputField from '@/components/InputField';
-import icons from '@/constants/icons';
-import CustomButton from '@/components/CustomButton';
-import SafeAreaContext from 'react-native-safe-area-context';
+import InputField from "@/components/InputField";
+import icons from "@/constants/icons";
+import React, { useState } from "react";
+import { KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import DropdownField from "@/components/Dropdown";
+import CustomButton from "@/components/CustomButton";
+import { router } from "expo-router";
+import axios from "axios";
+import { useUser } from "@clerk/clerk-expo";
+import { Alert } from "react-native";
 
 export default function PreferencesScreen() {
-  const router = useRouter();
   const [prefs, setPrefs] = useState({
+    sleepSchedule: '',
+    cleanlinessType: '',
+    noiseToleration: '',
+    socialType: '',
+    timeAtHome: '',
+    desiredCommunication: '',
     housingType: '',
     roomType: '',
-    okWithPets: '',
-    bedtime: '',
+    hasPet: '',
+    smokes: '',
+    drinks: '',
+    guestFrequency: '',
   });
 
+  const sleepSchedules = [
+    { label: "Early Bird", value: 'Early Bird' },
+    { label: "Night Owl", value: 'Night Owl' },
+    { label: "Flexible", value: 'Flexible' },
+  ];
+
+  const cleanlinessTypes = [
+    { label: "Messy Slob", value: 'Messy Slob' },
+    { label: "Disorganized", value: 'Disorganized' },
+    { label: "Organized", value: 'Organized' },
+    { label: "Neat Freak", value: 'Neat Freak' },
+  ];
+
+  const noiseTolerations = [
+    { label: "Very Little Noise", value: 'Very Little Noise' },
+    { label: "Moderate Noise", value: 'Moderate Noise' },
+    { label: "Heavy Noise", value: 'Heavy Noise' },
+    { label: "Any Noise", value: 'Any Noise' },
+  ];
+
   const onSave = () => {
-    // TODO: POST prefs to your backend…
+    
     router.replace('/');
   };
 
   return (
-    <SafeAreaView className='flex-1 bg-white'>
-      <ScrollView
-        contentContainerClassName='flex-1'
-        keyboardShouldPersistTaps="handled"
+    <SafeAreaView className="flex-1 bg-white">
+      <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 20 })}
       >
-        <View className="flex-1 justify-center px-3 mb-10">
-          <Text className="text-4xl text-primaryRed font-semibold">
-          Your Preferences
-          </Text>
+        <ScrollView contentContainerClassName="bg-white flex-grow mt-10">
+          <View className="h-[10%]"/>
 
-          <InputField
-          label="Housing Type"
-          placeholder="Dorm, Apartment, House"
-          icon={icons.home}
-          value={prefs.housingType}
-          onChangeText={v => setPrefs(s => ({ ...s, housingType: v }))}
-          />
+          <View className="px-5 mb-10">
+            <Text className="text-primaryRed font-semibold text-4xl">
+              Next, your lifestyle.
+            </Text>
+          </View>
 
-          <InputField
-          label="Room Type"
-          placeholder="Single, Double"
-          icon={icons.home}
-          value={prefs.housingType}
-          onChangeText={v => setPrefs(s => ({ ...s, housingType: v }))}
-          />
+          <View className="px-5 space-y-4">
+            <DropdownField
+              label="Sleep Schedule"
+              placeholder="Select..."
+              value={prefs.sleepSchedule}
+              options={sleepSchedules}
+              onValueChange={(s) => setPrefs({ ...prefs, sleepSchedule: s})}
+            />
 
-          <InputField
-            label="OK with Pets?"
-            placeholder="Yes / No"
-            icon={icons.pets}
-            value={prefs.okWithPets}
-            onChangeText={v => setPrefs(s => ({ ...s, okWithPets: v }))}
-          />
+            <DropdownField
+              label="Cleanliness"
+              placeholder="Select..."
+              value={prefs.cleanlinessType}
+              options={cleanlinessTypes}
+              onValueChange={(c) => setPrefs({ ...prefs, cleanlinessType: c})}
+            />
 
-          <InputField
-            label="Sleep Schedule"
-            placeholder="Night Owl, Early Bird, Flexible"
-            icon={icons.clock}
-            value={prefs.bedtime}
-            onChangeText={v => setPrefs(s => ({ ...s, bedtime: v }))}
-          />
+            <DropdownField
+              label="Noise Toleration"
+              placeholder="Select..."
+              value={prefs.noiseToleration}
+              options={cleanlinessTypes}
+              onValueChange={(c) => setPrefs({ ...prefs, cleanlinessType: c})}
+            />
+          </View>
 
-          <CustomButton title="Save Preferences" onPress={onSave} className="mt-10 p-4"/>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
