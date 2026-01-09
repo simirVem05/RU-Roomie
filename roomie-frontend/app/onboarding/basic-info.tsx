@@ -68,7 +68,7 @@ export default function BasicInfo() {
                 onboardingStep: "preferences",
             });
 
-            router.push("/onboarding/preferences");
+            router.replace("/onboarding/preferences");
         } catch (err: any) {
             console.error(err?.response?.data || err.message);
             Alert.alert("Error", "Could not save your info. Try again.")
@@ -83,7 +83,7 @@ export default function BasicInfo() {
             keyboardVerticalOffset={Platform.select({ ios: 0, android: 20 })}
             >
                 <ScrollView contentContainerClassName="bg-white flex-grow mt-10">
-                    <View className="h-[10%]"/>
+                    <View className="h-[2%]"/>
                     
                     <View className="px-5 mb-10">
                         <Text className="text-primaryRed font-semibold text-4xl">

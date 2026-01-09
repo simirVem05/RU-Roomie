@@ -69,7 +69,7 @@ const profileSchema = new mongoose.Schema({
     },
     desiredCommunication: {
         type: String,
-        enum: ['Only When Necessary', 'We Can Be Cool', 'Lets Be friends', 'Lets Be Best Friends'],
+        enum: ['Only When Necessary', 'We Can Be Cool', "Let's Be Friends", "Let's Be Best Friends"],
         required: [true, 'Desired communication is required']
     },
     interests: {
@@ -123,7 +123,7 @@ const profileSchema = new mongoose.Schema({
     },
     onboardingStep: {
         type: String,
-        enum: ["basic-info", "preferences", "photos", "review", "complete"],
+        enum: ["basic-info", "preferences", "interests", "photos", "bio", "complete"],
         default: "basic-info",
     },
 }, { timestamps: true });
