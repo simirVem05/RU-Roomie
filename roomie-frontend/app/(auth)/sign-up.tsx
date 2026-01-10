@@ -33,43 +33,33 @@ export default function SignUp() {
   const onSignUpPress = async () => {
     if (!isLoaded) return
 
-    // Start sign-up process using email and password provided
     try {
       await signUp.create({
         emailAddress: form.email,
         password: form.password,
       })
 
-      // Send user an email with verification code
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
-      // Set 'pendingVerification' to true to display second form
-      // and capture OTP code
       setVerification({
         ...verification,
         
         state: 'pending',
       });
     } catch (err: any) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
       Alert.alert('Error', err.errors[0].longMessage);
     }
   }
 
-  // Handle submission of verification form
   const onVerifyPress = async () => {
     if (!isLoaded) return
 
     try {
-      // Use the code the user provided to attempt verification
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
         code: verification.code,
       })
 
       const clerkUserId = signUpAttempt.createdUserId;
 
-      // If verification was completed, set the session to active
-      // and redirect the user
       if (signUpAttempt.status === 'complete') {
         await setActive({ session: signUpAttempt.createdSessionId })
 
@@ -97,8 +87,6 @@ export default function SignUp() {
         router.replace('/onboarding/basic-info');
       }
       else {
-        // If the status is not complete, check why. User may need to
-        // complete further steps.
         setVerification({ 
           ...verification,
           error: 'Verification failed',
@@ -213,47 +201,6 @@ export default function SignUp() {
                   </View>
               </View>
             </Modal>
-            
-            {/*Success modal */}
-            {/*
-            <Modal
-              transparent
-              animationType="fade"
-              visible={verification.state === "success"}
-            >
-              <View className="flex-1 justify-center items-center bg-black/50">
-                  <View className="w-[90%] bg-white px-7 py-9 rounded-2xl min-h-[300px]">
-                    <Image
-                      source={images.check}
-                      className="w-[110px] h-[110px] mx-auto my-5"
-                    />
-
-                    <Text className="text-4xl font-semibold text-center mt-2">
-                      Verified
-                    </Text>
-
-                    <Text className="text-base text-gray-500 text-center mt-3">
-                      You have successfully verified your account
-                    </Text>
-
-                    <View>
-                      <CustomButton title="Browse Home"
-                      onPress={() => {
-                        setVerification(prev => ({
-                          ...prev,
-                          state: 'default',
-                          code: '',
-                          error: '',
-                        }));
-                        
-                        router.push('/');
-                      }}
-                      className="mt-5 py-2"/>
-                    </View>
-                  </View>
-              </View>
-            </Modal>
-            */}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

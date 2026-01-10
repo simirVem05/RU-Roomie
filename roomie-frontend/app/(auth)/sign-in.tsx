@@ -17,7 +17,7 @@ const SignIn = () => {
         <SafeAreaView className="bg-white h-full">
             <ScrollView contentContainerClassName='flex-1 h-full'>
                 <View className="items-center justify-center flex-1 mt-10">
-                    <Text className='text-primaryRed text-center text-7xl font-light'>RU Roomie</Text>
+                    <Text className='text-primaryRed text-center text-7xl font-semibold'>RU Roomie</Text>
                     <Text className="text-center text-primaryRed text-xl mt-2">
                         R U looking for a roomie?
                     </Text>

@@ -37,4 +37,6 @@ declare interface DropdownFieldProps {
   containerStyle?: string;
   inputStyle?: string;
   iconStyle?: string;
+
+  selectedValues?: string[];
 }

@@ -17,6 +17,8 @@ export default function Interests() {
         interestFour: '',
         interestFive: '',
     });
+
+    const selectedValues = Object.values(prefs).filter(Boolean);
     
     const interests = [
         { label: 'Traveling', value: 'Traveling' },
@@ -128,7 +130,15 @@ export default function Interests() {
                             placeholder="Select..."
                             value={prefs.interestOne}
                             options={interests}
-                            onValueChange={(i) => setPrefs({ ...prefs, interestOne: i})}
+                            selectedValues={selectedValues}
+                            onValueChange={(i) => {
+                                const otherSelected = selectedValues.filter(x => x !== prefs.interestOne);
+                                if (otherSelected.includes(i)) {
+                                    Alert.alert("Duplicate interest", "Pick a different interest.");
+                                    return;
+                                }
+                                setPrefs({ ...prefs, interestOne: i})
+                            }}
                         />
 
                         <DropdownField
@@ -136,7 +146,15 @@ export default function Interests() {
                             placeholder="Select..."
                             value={prefs.interestTwo}
                             options={interests}
-                            onValueChange={(i) => setPrefs({ ...prefs, interestTwo: i})}
+                            selectedValues={selectedValues}
+                            onValueChange={(i) => {
+                                const otherSelected = selectedValues.filter(x => x !== prefs.interestTwo);
+                                if (otherSelected.includes(i)) {
+                                    Alert.alert("Duplicate interest", "Pick a different interest.");
+                                    return;
+                                }
+                                setPrefs({ ...prefs, interestTwo: i})
+                            }}
                         />
 
                         <DropdownField
@@ -144,7 +162,15 @@ export default function Interests() {
                             placeholder="Select..."
                             value={prefs.interestThree}
                             options={interests}
-                            onValueChange={(i) => setPrefs({ ...prefs, interestThree: i})}
+                            selectedValues={selectedValues}
+                            onValueChange={(i) => {
+                                const otherSelected = selectedValues.filter(x => x !== prefs.interestThree);
+                                if (otherSelected.includes(i)) {
+                                    Alert.alert("Duplicate interest", "Pick a different interest.");
+                                    return;
+                                }
+                                setPrefs({ ...prefs, interestThree: i})
+                            }}
                         />
 
                         <DropdownField
@@ -152,7 +178,15 @@ export default function Interests() {
                             placeholder="Select..."
                             value={prefs.interestFour}
                             options={interests}
-                            onValueChange={(i) => setPrefs({ ...prefs, interestFour: i})}
+                            selectedValues={selectedValues}
+                            onValueChange={(i) => {
+                                const otherSelected = selectedValues.filter(x => x !== prefs.interestFour);
+                                if (otherSelected.includes(i)) {
+                                    Alert.alert("Duplicate interest", "Pick a different interest.");
+                                    return;
+                                }
+                                setPrefs({ ...prefs, interestFour: i})
+                            }}
                         />
 
                         <DropdownField
@@ -160,7 +194,15 @@ export default function Interests() {
                             placeholder="Select..."
                             value={prefs.interestFive}
                             options={interests}
-                            onValueChange={(i) => setPrefs({ ...prefs, interestFive: i})}
+                            selectedValues={selectedValues}
+                            onValueChange={(i) => {
+                                const otherSelected = selectedValues.filter(x => x !== prefs.interestFive);
+                                if (otherSelected.includes(i)) {
+                                    Alert.alert("Duplicate interest", "Pick a different interest.");
+                                    return;
+                                }
+                                setPrefs({ ...prefs, interestFive: i})
+                            }}
                         />
 
                         <CustomButton
@@ -169,7 +211,6 @@ export default function Interests() {
                             className="mt-10 py-2"
                         />
                     </View>
-
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>

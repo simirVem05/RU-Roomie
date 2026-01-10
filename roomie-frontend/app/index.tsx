@@ -49,23 +49,25 @@ export default function IndexGate() {
                             return;
                         case "preferences":
                             router.replace("/onboarding/preferences");
-                            break;
+                            return;
                         case "interests":
                             router.replace("/onboarding/interests");
-                            break;
+                            return;
                         case "photos":
                             router.replace("/onboarding/photos");
-                            break;
+                            return;
                         case "bio":
                             router.replace("/onboarding/bio");
-                            break;
+                            return;
                         default:
                             router.replace("/onboarding/basic-info");
+                            return;
                     }
                     return;
                 }
 
                 router.replace("/(app)/(tabs)");
+                return;
             } catch (err) {
                 console.error("IndexGate failed to fetch profile: ", err);
                 router.replace("/onboarding/basic-info");
@@ -75,7 +77,7 @@ export default function IndexGate() {
         };
 
         run();
-    }, [isLoaded, isSignedIn, user]);
+    }, [isLoaded, isSignedIn, user?.id]);
 
     if (checking) {
         return (
