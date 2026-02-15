@@ -126,6 +126,10 @@ const profileSchema = new mongoose.Schema({
         enum: ["basic-info", "preferences", "interests", "photos", "bio", "complete"],
         default: "basic-info",
     },
+    feedSessionIndex: {
+        type: Number, 
+        default: 0,
+    },
 }, { timestamps: true });
 
 const Profile = mongoose.model('Profile', profileSchema);

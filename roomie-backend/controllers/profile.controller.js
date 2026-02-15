@@ -97,7 +97,51 @@ export const getProfileByClerkUser = async (req, res, next) => {
       throw error;
     }
 
-    const profile = await Profile.findOne({ user: user._id });
+    const profile = await Profile.findOne({ user: user._id }).populate("user", "name email");
+
+    res.status(200).json({
+      status: "success",
+      data: { profile },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProfileByClerkUser = async (req, res, next) => {
+  try {
+    const { clerkUserId } = req.params;
+
+    const user = await User.findOne({ clerkUserId });
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // Block fields you never want edited from this endpoint
+    const {
+      _id,
+      user: userField,
+      isOnboarded,
+      onboardingStep,
+      createdAt,
+      updatedAt,
+      __v,
+      ...allowed
+    } = req.body;
+
+    const profile = await Profile.findOneAndUpdate(
+      { user: user._id },
+      { $set: allowed },
+      { new: true, runValidators: true }
+    ).populate("user", "name email");
+
+    if (!profile) {
+      const error = new Error("Profile not found");
+      error.statusCode = 404;
+      throw error;
+    }
 
     res.status(200).json({
       status: "success",

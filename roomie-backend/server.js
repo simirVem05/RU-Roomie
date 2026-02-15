@@ -10,6 +10,8 @@ import matchesRouter from './routes/matches.routes.js';
 import messagesRouter from './routes/messages.routes.js';
 import errorMiddleware from './middleware/error.middleware.js';
 import profileRoutes from "./routes/profile.routes.js";
+import feedRoutes from "./routes/feed.routes.js";
+import swipeRoutes from "./routes/swipe.routes.js";
 
 const app = express();
 
@@ -23,6 +25,8 @@ app.use('/api/v1/users', userRouter);
 app.use("/api/v1/profile", profileRoutes);
 app.use('/api/v1/matches', matchesRouter);
 app.use('/api/v1/messages', messagesRouter);
+app.use('/api/v1/feed', feedRoutes);
+app.use('/api/v1/swipes', swipeRoutes)
 
 
 app.get('/', (req, res) => res.send('API is running'));

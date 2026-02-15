@@ -1,18 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const matchSchema = new mongoose.Schema({
-    users: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
-    matchStatus: {
-        type: String,
-        enum: ['Matched', 'Unmatched'],
-        default: 'Matched',
-    },
-}, { timestamps: true });
+const matchSchema = new mongoose.Schema(
+  {
+    users: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    ],
 
-const Match = mongoose.model('Match', matchSchema);
+    // for “first user sees it next time they open matches”
+    seenBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  },
+  { timestamps: true }
+);
 
-export default Match;
+// Ensure only one match per pair (store sorted user ids)
+matchSchema.index({ users: 1 }, { unique: true });
+
+export default mongoose.model("Match", matchSchema);

@@ -1,16 +1,13 @@
-import { Router } from 'express';
+// routes/match.routes.js
+import Match from "../models/match.model.js";
+import Profile from "../models/profile.model.js";
 
-const matchesRouter = Router();
+router.get("/", auth, async (req, res) => {
+  const me = req.profile;
 
-// two people swipe right on each other
-matchesRouter.post('/', (req, res) => res.send({ title: 'CREATE match'}));
+  const matches = await Match.find({ users: me._id })
+    .sort({ createdAt: -1 })
+    .lean();
 
-matchesRouter.get('/', (req, res) => res.send({ title: 'GET all matches'}));
-
-// get one match
-matchesRouter.get('/:id', (req, res) => res.send({ title: 'GET match'}));
-
-// unmatch
-matchesRouter.delete('/:id', (req, res) => res.send({ title: 'DELETE match'}));
-
-export default matchesRouter;
+  res.json({ ok: true, data: { matches } });
+});

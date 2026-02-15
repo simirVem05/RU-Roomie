@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs';
 import User from '../models/user.model.js';
 
 export const signUp = async(req, res, next) => {
+  console.log("✅ /auth/sign-up HIT", new Date().toISOString());
+  
   try {
     const { name, email, password, clerkUserId } = req.body;
 
